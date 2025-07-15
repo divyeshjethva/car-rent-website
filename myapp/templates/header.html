@@ -73,12 +73,19 @@
           <li class="nav-item">
             <a href="{% url 'contact' %}" class="nav-link">Contact</a>
           </li>
+          {% if request.session.email %}
+          <li class="nav-item">
+            <a href="{% url 'logout' %}" class="nav-link">logout</a>
+          </li>
+          {% else %}
           <li class="nav-item">
             <a href="{% url 'singup' %}" class="nav-link">Singup</a>
           </li>
           <li class="nav-item">
             <a href="{% url 'login' %}" class="nav-link">login</a>
           </li>
+          {% endif %}
+          
         </ul>
       </div>
     </div>
