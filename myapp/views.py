@@ -27,9 +27,9 @@ def contact(request):
 def singup(request):
     if request.method=="POST":
         try:
-            user = User.objects.get(email==request.POST['email'])
+            user = User.objects.get(email=request.POST['email'])
             msg = "Email already Exists"
-            return render(request,'singup.html',{'msg':msg})
+            return render(request, 'singup.html', {'msg': msg})
         except:
             if request.POST['password'] == request.POST['cpassword']:
                 User.objects.create(
@@ -43,7 +43,8 @@ def singup(request):
             else:
                 msg = "password and confirm password does't match !!!"
                 return render(request,'singup.html',{'msg':msg})
-                
-            
     else:
         return render(request,'singup.html')
+
+def login(request):
+    return render(request, 'login.html')
