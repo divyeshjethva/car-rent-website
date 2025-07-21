@@ -67,3 +67,12 @@ def login(request):
 def logout(request):
     del request.session['email']
     return redirect('login')
+
+def fpass(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email = request.POST['email'])
+        except:
+            pass
+    else:
+        return render(request,'fpass.html')

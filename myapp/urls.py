@@ -29,5 +29,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('singup/', views.singup, name='singup'),
     path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('fpass/', views.fpass, name='fpass')
 ]
