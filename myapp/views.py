@@ -1,5 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import *
+from django.core.mail import send_mail
+from django.conf import settings
+import random
 
 # Create your views here.
 
@@ -72,7 +75,51 @@ def fpass(request):
     if request.method == "POST":
         try:
             user = User.objects.get(email = request.POST['email'])
+            otp = random.randint(1001,9999)
+            subject = 'OTP for forget Password'
+            message = 'Hi'+user.name+'your otp is :' + str(otp)
+            email_form = settings.EMAIL_HOST_USER
+            recipient_list = [user.email,]
+            send_mail(subject,message,email_form,recipient_list)
+            request.session['email'] = user.email
+            request.session['otp'] = otp
+            return render(request,'otp.html')
+            
+        except:
+            msg = "Email does not exist"
+            return render(request,'fpass.html',{'msg':msg})
+    else:
+        return render(request,'fpass.html')
+
+def otp(request):
+    if request.method == "POST":
+        try:
+            otp = int(request.session['otp'])
+            uotp = int(request.POST['uotp'])
+            if otp == uotp:
+                del request.session['otp']
+                return render(request,'newpass.html')
+            else:
+                msg = "invalid otp"
+                return render(request,'otp.html',{'msg':msg})
         except:
             pass
     else:
-        return render(request,'fpass.html')
+        return render(request,'otp.html')
+
+def newpass(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email=request.session['email'])
+            if request.POST['npassword']==request.POST['cnpassword']:
+                user.password = request.POST['npassword']
+                user.save()
+                del request.session['email']
+                return redirect('login')
+            else:
+                msg = "new password and confirm new password not match"
+                return render(request,'newpass.html',{'msg':msg})
+        except:
+            pass
+    else:
+        return render(request,'newpass.html')

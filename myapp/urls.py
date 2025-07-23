@@ -30,5 +30,7 @@ urlpatterns = [
     path('singup/', views.singup, name='singup'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('fpass/', views.fpass, name='fpass')
+    path('fpass/', views.fpass, name='fpass'),
+    path('otp/', views.otp, name='otp'),
+    path('newpass/', views.newpass, name='newpass')
 ]
