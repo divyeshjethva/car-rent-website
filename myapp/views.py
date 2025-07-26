@@ -125,4 +125,20 @@ def newpass(request):
         return render(request,'newpass.html')
     
 def cpass(request):
-    return render(request,'cpass.html')
+    if request.method == "POST":
+        user = User.objects.get(email = request.session['email'])
+        
+        if user.password == request.POST['opassword']:
+            if request.POST['npassword']==request.POST['cnpassword']:
+                user.password = request.POST['npassword']
+                user.save()
+                return redirect('logout')
+            else:
+                msg = "New password and confirm password not match"
+                return render(request,'cpass.html')
+        else:
+            msg = "Old password not match"
+            return render(request,'cpass.html')
+                
+    else:
+        return render(request,'cpass.html')
