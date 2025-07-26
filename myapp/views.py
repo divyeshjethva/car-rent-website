@@ -41,6 +41,7 @@ def singup(request):
                     email = request.POST['email'],
                     mobile = request.POST['mobile'],
                     password = request.POST['password'],
+                    profile = request.FILES['profile'],
                 )
                 msg = "signup successfully !!!"
                 return render(request,'login.html',{'msg':msg})

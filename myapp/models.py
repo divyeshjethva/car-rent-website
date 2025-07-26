@@ -7,6 +7,7 @@ class User(models.Model):
     email = models.EmailField()
     mobile = models.BigIntegerField()
     password = models.CharField(max_length=30)
+    profile = models.ImageField(default="",upload_to="profile/")
     
     def __str__(self):
         return f"{self.name}"
