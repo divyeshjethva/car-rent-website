@@ -123,3 +123,6 @@ def newpass(request):
             pass
     else:
         return render(request,'newpass.html')
+    
+def cpass(request):
+    return render(request,'cpass.html')

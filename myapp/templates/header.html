@@ -68,12 +68,12 @@
           </li>
           <li class="nav-item"><a href="{% url 'cars' %}" class="nav-link">Cars</a></li>
           <li class="nav-item">
-            <a href="{% url 'blog' %}" class="nav-link">Blog</a>
-          </li>
-          <li class="nav-item">
             <a href="{% url 'contact' %}" class="nav-link">Contact</a>
           </li>
           {% if request.session.email %}
+          <li class="nav-item">
+            <a href="{% url 'cpass' %}" class="nav-link">Change-Password</a>
+          </li>
           <li class="nav-item">
             <a href="{% url 'logout' %}" class="nav-link">logout</a>
           </li>
