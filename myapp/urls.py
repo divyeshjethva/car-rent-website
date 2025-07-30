@@ -35,4 +35,5 @@ urlpatterns = [
     path('otp/', views.otp, name='otp'),
     path('newpass/', views.newpass, name='newpass'),
     path('cpass/', views.cpass, name='cpass'),
+    path('uprofile/', views.uprofile, name='uprofile'),
 ]

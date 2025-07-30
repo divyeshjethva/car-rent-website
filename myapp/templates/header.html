@@ -77,6 +77,9 @@
           <li class="nav-item">
             <a href="{% url 'logout' %}" class="nav-link">logout</a>
           </li>
+          <a href="{% url "uprofile" %}">
+            <img src="{{request.session.profile}}" height="50px" width="50px" class="rounded-circle">
+          </a>
           {% else %}
           <li class="nav-item">
             <a href="{% url 'singup' %}" class="nav-link">Singup</a>

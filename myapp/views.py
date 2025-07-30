@@ -57,6 +57,7 @@ def login(request):
             user = User.objects.get(email=request.POST['email'])
             if user.password==request.POST['password']:
                 request.session['email']=user.email
+                request.session['profile']=user.profile.url
                 return redirect('index')
             else:
                 msg = "password doest not macth"
@@ -70,6 +71,7 @@ def login(request):
 
 def logout(request):
     del request.session['email']
+    del request.session['profile']
     return redirect('login')
 
 def fpass(request):
@@ -136,10 +138,25 @@ def cpass(request):
                 return redirect('logout')
             else:
                 msg = "New password and confirm password not match"
-                return render(request,'cpass.html')
+                return render(request,'cpass.html',{'msg':msg})
         else:
             msg = "Old password not match"
-            return render(request,'cpass.html')
+            return render(request,'cpass.html',{'msg':msg})
                 
     else:
         return render(request,'cpass.html')
+    
+
+def uprofile(request):
+    user = User.objects.get(email = request.session['email'])
+    if request.method == "POST":
+        user.name = request.POST['name']
+        user.mobile = request.POST['mobile']
+        try:
+            user.profile = request.FILES['profile']
+        except:
+            pass
+        user.save()
+        return redirect(login)
+    else:
+        return render(request,'uprofile.html',{'user':user})
