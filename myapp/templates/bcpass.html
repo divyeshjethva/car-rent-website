@@ -1,4 +1,4 @@
-{% extends "header.html" %}
+{% extends "bheader.html" %}
 {% load static %}
 {% block content %}
 
@@ -11,7 +11,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
           <div class="col-md-9 ftco-animate pb-5">
           	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Contact <i class="ion-ios-arrow-forward"></i></span></p>
-            <h1 class="mb-3 bread">Sing up</h1>
+            <h1 class="mb-3 bread">Update Password</h1>
           </div>
         </div>
       </div>
@@ -53,35 +53,21 @@
 		        </div>
           </div>
           <div class="col-md-8 block-9 mb-md-5">
-            <form action="{% url 'singup' %}" class="bg-light p-5 contact-form" method="post" enctype="multipart/form-data">
+            <form action="{% url 'cpass' %}" class="bg-light p-5 contact-form" method="post">
               {% csrf_token %}
+              
               <div class="form-group">
-                <select name="usertype" id="">
-                  <option value="" hidden>-------Select User-------</option>
-                  <option value="broker">Broker</option>
-                  <option value="customer">Customer</option>
-                </select>
+                <input type="password" class="form-control" placeholder="Old password" name="opassword">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Name" name="name">
+                <input type="password" class="form-control" placeholder="new password" name="npassword">
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email">
+                <input type="password" class="form-control" placeholder="confirm new password" name="cnpassword">
               </div>
+              
               <div class="form-group">
-                <input type="number" class="form-control" placeholder="mobile" name="mobile">
-              </div>
-              <div class="form-group">
-                <input type="password" class="form-control" placeholder="password" name="password">
-              </div>
-              <div class="form-group">
-                <input type="password" class="form-control" placeholder="confirm password" name="cpassword">
-              </div>
-              <div class="form-group">
-                <input type="file" class="form-control" name="profile">
-              </div>
-              <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary py-3 px-5">
+                <input type="submit" value="Update-Password" class="btn btn-primary py-3 px-5">
               </div>
             </form>
           

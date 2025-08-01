@@ -42,6 +42,7 @@ def singup(request):
                     mobile = request.POST['mobile'],
                     password = request.POST['password'],
                     profile = request.FILES['profile'],
+                    usertype = request.POST['usertype'],
                 )
                 msg = "signup successfully !!!"
                 return render(request,'login.html',{'msg':msg})
@@ -58,7 +59,11 @@ def login(request):
             if user.password==request.POST['password']:
                 request.session['email']=user.email
                 request.session['profile']=user.profile.url
-                return redirect('index')
+                
+                if user.usertype == "customer":
+                    return redirect('index')
+                else:
+                    return redirect('bindex')
             else:
                 msg = "password doest not macth"
                 return render(request, 'login.html',{'msg':msg})
@@ -128,8 +133,8 @@ def newpass(request):
         return render(request,'newpass.html')
     
 def cpass(request):
+    user = User.objects.get(email = request.session['email'])
     if request.method == "POST":
-        user = User.objects.get(email = request.session['email'])
         
         if user.password == request.POST['opassword']:
             if request.POST['npassword']==request.POST['cnpassword']:
@@ -138,14 +143,23 @@ def cpass(request):
                 return redirect('logout')
             else:
                 msg = "New password and confirm password not match"
-                return render(request,'cpass.html',{'msg':msg})
+                if user.usertype == "customer":
+                    return render(request,'cpass.html',{'msg':msg})
+                else:
+                    return render(request,'bcpass.html',{'msg':msg})
         else:
             msg = "Old password not match"
-            return render(request,'cpass.html',{'msg':msg})
+            if user.usertype == "customer":
+                return render(request,'cpass.html',{'msg':msg})
+            else:
+                return render(request,'bcpass.html',{'msg':msg})
                 
     else:
-        return render(request,'cpass.html')
-    
+        if user.usertype == "customer":
+            return render(request,'cpass.html')
+        else:
+            return render(request,'bcpass.html')
+            
 
 def uprofile(request):
     user = User.objects.get(email = request.session['email'])
@@ -154,9 +168,21 @@ def uprofile(request):
         user.mobile = request.POST['mobile']
         try:
             user.profile = request.FILES['profile']
+            user.save()
+            request.session['profile']=user.profile.url
         except:
             pass
         user.save()
-        return redirect(login)
+        if user.usertype == "customer":
+            return redirect('index')
+        else:
+            return redirect('bindex')
     else:
-        return render(request,'uprofile.html',{'user':user})
+        if user.usertype == "customer":
+            return render(request,'uprofile.html',{'user':user})
+        else:
+            return render(request,'buprofile.html',{'user':user})
+            
+    
+def bindex(request):
+    return render(request,'bindex.html')
