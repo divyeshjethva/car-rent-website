@@ -37,4 +37,7 @@ urlpatterns = [
     path('newpass/', views.newpass, name='newpass'),
     path('cpass/', views.cpass, name='cpass'),
     path('uprofile/', views.uprofile, name='uprofile'),
+    path('add/', views.add, name='add'),
+    path('view/', views.view, name='view'),
+    # path('car/', views.car, name='car'),
 ]

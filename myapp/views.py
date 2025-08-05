@@ -186,3 +186,27 @@ def uprofile(request):
     
 def bindex(request):
     return render(request,'bindex.html')
+
+def add(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email = request.session['email'])
+            Car.objects.create(
+                user=user,
+                compnaychoice = request.POST['company'],
+                cyear = request.POST['cyear'],
+                cname = request.POST['cname'],
+                cprice = request.POST['cprice'],
+                cimage = request.FILES['cimage'],
+            )
+            msg = "car added succcessfully"
+            return render(request,'add.html',{'msg':msg})
+        except:
+            return redirect('bindex')
+    else:
+        return render(request,'add.html')
+    
+def view(request):
+    user = User.objects.get(email = request.session['email'])
+    car = Car.objects.filter(user=user)
+    return render(request,'view.html',{'car':car})

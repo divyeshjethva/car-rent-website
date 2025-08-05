@@ -12,3 +12,20 @@ class User(models.Model):
     
     def __str__(self):
         return f"{self.name}"
+
+class Car(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    company = (
+        ('Maruti','Maruti'),
+        ('Mahindra','Mahindra'),
+        ('Hyundai','Hyundai'),
+    )
+    
+    cyear = models.IntegerField()
+    compnaychoice = models.CharField(max_length=120,choices=company)
+    cname = models.CharField(max_length=120)
+    cprice = models.IntegerField()
+    cimage = models.ImageField(default="",upload_to="car/")
+    
+    def __str__(self):
+        return f"{self.cname} {self.cyear} {self.user}"
