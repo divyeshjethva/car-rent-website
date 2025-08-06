@@ -28,4 +28,4 @@ class Car(models.Model):
     cimage = models.ImageField(default="",upload_to="car/")
     
     def __str__(self):
-        return f"{self.cname} {self.cyear} {self.user}"
+        return f"{self.cname},   {self.user}"

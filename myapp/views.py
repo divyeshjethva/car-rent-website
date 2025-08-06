@@ -210,3 +210,13 @@ def view(request):
     user = User.objects.get(email = request.session['email'])
     car = Car.objects.filter(user=user)
     return render(request,'view.html',{'car':car})
+
+def cdetails(request,pk):
+    user = User.objects.get(email = request.session['email'])
+    car = Car.objects.get(pk=pk)
+    return render(request,'cdetails.html',{'car':car})
+
+def update(request,pk):
+    user = User.objects.get(email = request.session['email'])
+    car = Car.objects.get(pk=pk)
+    return render(request,'update.html',{'car':car})
