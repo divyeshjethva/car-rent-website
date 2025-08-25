@@ -41,4 +41,5 @@ urlpatterns = [
     path('view/', views.view, name='view'),
     path('cdetails/<int:pk>', views.cdetails, name='cdetails'),
     path('update/<int:pk>', views.update, name='update'),
+    path('delete/<int:pk>', views.delete, name='delete'),
 ]

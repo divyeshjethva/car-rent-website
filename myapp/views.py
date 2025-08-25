@@ -201,14 +201,16 @@ def add(request):
             )
             msg = "car added succcessfully"
             return render(request,'add.html',{'msg':msg})
-        except:
+        except Exception as e:
+            print("=================>",e)
             return redirect('bindex')
     else:
         return render(request,'add.html')
     
 def view(request):
     user = User.objects.get(email = request.session['email'])
-    car = Car.objects.filter(user=user)
+    car = Car.objects.filter(user=user) 
+    print(user)
     return render(request,'view.html',{'car':car})
 
 def cdetails(request,pk):
@@ -219,4 +221,23 @@ def cdetails(request,pk):
 def update(request,pk):
     user = User.objects.get(email = request.session['email'])
     car = Car.objects.get(pk=pk)
-    return render(request,'update.html',{'car':car})
+    if request.method=="POST":
+        car.cname = request.POST["cname"]
+        car.cprice = request.POST["cprice"]
+        car.cyear = request.POST["cyear"]
+        car.compnaychoice == request.POST["company"]
+        try:
+            car.cimage = request.FILES['cimage']
+        except:
+            pass
+        car.save()
+        return redirect('view')
+    else:
+        return render(request,'update.html',{'car':car})
+    
+def delete(request, pk):
+    user = User.objects.get(email = request.session['email'])
+    car = Car.objects.get(pk=pk)
+    car.delete()
+    
+    return redirect('view')
