@@ -1,0 +1,25 @@
+{% extends 'header.html' %} {% load static %} {% block content %}
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row">
+      {% for i in wish %}
+      <div class="col-md-4">
+        <div class="car-wrap rounded ftco-animate">
+    					<div class="img rounded d-flex align-items-end" style="background-image: url({{i.car.cimage.url}});">
+    					</div>
+    					<div class="text">
+    						<h2 class="mb-0"><a href="car-single.html">{{i.car.cname}}</a></h2>
+    						<div class="d-flex mb-3">
+	    						<span class="cat">{{i.car.cname}}</span>
+	    						<p class="price ml-auto">${{i.car.cprice}} <span>/day</span></p>
+    						</div>
+    						<p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="{% url "cdetails" pk=i.pk %}" class="btn btn-secondary py-2 ml-1">Details</a></p>
+    					</div>
+    				</div>
+    			</div>
+          {% endfor %}
+        </div>
+      </div>
+</section>
+{% endblock %}

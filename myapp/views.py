@@ -7,7 +7,8 @@ import random
 # Create your views here.
 
 def index(request):
-    return render(request,'index.html')
+    car = Car.objects.all()
+    return render(request,'index.html',{'car':car})
 
 def about(request):
     return render(request,'about.html')
@@ -216,7 +217,11 @@ def view(request):
 def cdetails(request,pk):
     user = User.objects.get(email = request.session['email'])
     car = Car.objects.get(pk=pk)
-    return render(request,'cdetails.html',{'car':car})
+    
+    if user.usertype == "customer":
+        return render(request,'cdetailsby.html',{'car':car})
+    else:
+        return render(request,'cdetails.html',{'car':car})
 
 def update(request,pk):
     user = User.objects.get(email = request.session['email'])
@@ -241,3 +246,23 @@ def delete(request, pk):
     car.delete()
     
     return redirect('view')
+
+def addwish(request,pk):
+    try:
+        user = User.objects.get(email = request.session['email'])
+        car = Car.objects.get(pk=pk)
+
+        Wishlist.objects.create(
+            user = user,
+            car = car
+        )
+        return redirect('wishlist')
+    except Exception as e:
+        msg = e
+        return render(request,'wishlist.html',{'msg':msg})
+
+    
+def wishlist(request):
+    user = User.objects.get(email = request.session['email'])
+    wish = Wishlist.objects.filter(user=user)
+    return render(request,'wishlist.html',{'wish':wish})
