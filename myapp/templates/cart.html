@@ -41,9 +41,11 @@
           </td>
           <td>${{i.car.cprice}}</td>
           <td>
-                <button class="btn btn-sm btn-danger">
+                <a href="{% url "deletecart" pk=i.pk %}">
+                  <button class="btn btn-sm btn-danger">
                     <i class="bi bi-trash"></i>
                 </button>
+                </a>
             </td>
         </tr>
         {% endfor %}

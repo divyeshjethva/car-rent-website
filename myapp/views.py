@@ -297,3 +297,9 @@ def cart(request):
     tax = net*5/100
     total = net+tax
     return render(request,'cart.html',{'cart':cart,'net':net,'tax':tax,'total':total}) 
+
+def deletecart(request,pk):
+    user = User.objects.get(email = request.session['email'])
+    cart = Cart.objects.get(pk=pk)
+    cart.delete()
+    return redirect('cart')

@@ -46,5 +46,6 @@ urlpatterns = [
     path('delwish/<int:pk>', views.delwish, name='delwish'),
     path('wishlist/', views.wishlist, name='wishlist'),
     path('addcart/<int:pk>', views.addcart, name='addcart'),
+    path('deletecart/<int:pk>', views.deletecart, name='deletecart'),
     path('cart/', views.cart, name='cart'),
 ]
