@@ -5,3 +5,4 @@ from . models import *
 admin.site.register(User)
 admin.site.register(Car)
 admin.site.register(Wishlist)
+admin.site.register(Cart)

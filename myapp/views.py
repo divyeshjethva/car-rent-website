@@ -261,8 +261,39 @@ def addwish(request,pk):
         msg = e
         return render(request,'wishlist.html',{'msg':msg})
 
-    
+def delwish(request,pk):
+    user =User.objects.get(email=request.session['email'])
+    wish = Wishlist.objects.get(pk=pk)
+    wish.delete()
+    return redirect('wishlist')
+
 def wishlist(request):
     user = User.objects.get(email = request.session['email'])
     wish = Wishlist.objects.filter(user=user)
     return render(request,'wishlist.html',{'wish':wish})
+
+def addcart(request,pk):
+    try:
+        user = User.objects.get(email = request.session['email'])
+        car = Car.objects.get(pk=pk)
+        
+        Cart.objects.create(
+            user = user,
+            car=car,
+            qty=1,
+            total = car.cprice,
+            payment_status = False
+        )
+        return redirect('cart')
+    except:
+        pass
+
+def cart(request):
+    user = User.objects.get(email = request.session['email'])
+    cart = Cart.objects.filter(user=user)
+    net = 0 
+    for i in cart:
+        net+=i.total
+    tax = net*5/100
+    total = net+tax
+    return render(request,'cart.html',{'cart':cart,'net':net,'tax':tax,'total':total}) 
