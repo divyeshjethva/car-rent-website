@@ -3,6 +3,8 @@ from .models import *
 from django.core.mail import send_mail
 from django.conf import settings
 import random
+import razorpay
+import pkg_resources
 
 # Create your views here.
 
@@ -290,13 +292,40 @@ def addcart(request,pk):
 
 def cart(request):
     user = User.objects.get(email = request.session['email'])
-    cart = Cart.objects.filter(user=user)
+    cart = Cart.objects.filter(user=user, payment_status=False)
     net = 0 
     for i in cart:
         net+=i.total
     tax = net*5/100
     total = net+tax
-    return render(request,'cart.html',{'cart':cart,'net':net,'tax':tax,'total':total}) 
+    
+    client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID,settings.RAZORPAY_KEY_SECRET))
+    payment = client.order.create({'amount': total * 100, 'currency': 'INR', 'payment_capture': 1})
+    
+    context = {
+                    'payment': payment,
+                    #'book':book,  # Ensure the amount is in paise
+                }
+
+
+    return render(request,'cart.html',{'cart':cart,'net':net,'tax':tax,'total':total,'context':context})
+
+
+
+def sucess(request):
+    try:
+        user = User.objects.get(email=request.session['email'])
+        cart=Cart.objects.filter(user=user)
+        for i in cart:
+            i. paymet_status=True
+            i.save()
+        return render(request,'sucess.html',{'cart':cart})
+
+    except Exception as e:
+        print("*",e)
+        return redirect('index')
+
+
 
 def deletecart(request,pk):
     user = User.objects.get(email = request.session['email'])
